@@ -15,6 +15,18 @@ class Article
         $this->publishDate = $publishDate;
     }
 
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function getDate() {
+        return $this->publishDate;
+    }
+
     public function formatPublishDate($format = 'DD-MM-YYYY')
     {
         // TODO: return the date in the required format

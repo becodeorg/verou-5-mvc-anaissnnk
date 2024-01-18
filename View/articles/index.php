@@ -6,7 +6,9 @@
     <h1>Articles</h1>
     <ul>
         <?php foreach ($articles as $article) : ?>
-            <li><?= $article->title ?> (<?= $article->formatPublishDate() ?></li>
+            <h2><?= $article->getTitle(); ?></h2>
+            <p>Summary: <?= $article->getDescription(); ?></p>
+            <span>Date published: <?= $article->getDate(); ?></span>
         <?php endforeach; ?>
     </ul>
 </section>

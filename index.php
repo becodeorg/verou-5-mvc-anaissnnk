@@ -11,6 +11,18 @@ require 'Model/Article.php';
 //include all your controllers here
 require 'Controller/HomepageController.php';
 require 'Controller/ArticleController.php';
+require 'core/DatabaseManager.php';
+
+// Create an instance of DatabaseManager with appropriate parameters
+$databaseManager = new DatabaseManager($config['host'], $config['user'], $config['password'], $config['dbname']);
+$databaseManager->connect();
+
+// Create an instance of ArticleController and pass the DatabaseManager instance
+$articleController = new ArticleController($databaseManager);
+
+// Call the index method
+$articleController->index();
+
 
 // Get the current page to load
 // If nothing is specified, it will remain empty (home should be loaded)
@@ -27,6 +39,8 @@ switch ($page) {
         break;
     case 'articles-show':
         // TODO: detail page
+        (new ArticleController())->show();
+        break;
     case 'home':
     default:
         (new HomepageController())->index();

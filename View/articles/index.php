@@ -2,8 +2,6 @@
 
 <?php // Use any data loaded in the controller here ?>
 
-<?php //TODO: change date to required format ?>
-
 <section>
     <h1>Articles</h1>
     <ul>

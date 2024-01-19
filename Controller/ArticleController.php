@@ -48,10 +48,35 @@ class ArticleController
 
     public function show()
     {
-        $articles = $this->getArticles();
-        require 'View/articles/show.php';
-
+        // Check if the 'id' parameter is set in the URL
+        if (isset($_GET['id'])) {
+            $articleId = (int)$_GET['id']; // Make sure it's an integer to prevent SQL injection
+    
+            // Fetch the specific article by ID
+            $articles = $this->getArticles(); // Assuming getArticles returns an array of Article objects
+    
+            // Find the article with the matching ID
+            $article = null;
+            foreach ($articles as $a) {
+                if ($a->getId() === $articleId) {
+                    $article = $a;
+                    break;
+                }
+            }
+    
+            // Check if the article is found
+            if ($article) {
+                // Load the view for displaying the article details
+                require 'View/articles/show.php';
+                return;
+            }
+        }
+    
+        // Redirect to some error page if the article is not found
+        header("Location: index.php?page=error");
+        exit();
     }
+    
 
     public function searchByID() {
         try {

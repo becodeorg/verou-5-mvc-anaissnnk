@@ -46,12 +46,29 @@ class ArticleController
         }
     }
 
-
     public function show()
     {
-        // TODO: this can be used for a detail page
         $articles = $this->getArticles();
         require 'View/articles/show.php';
 
+    }
+
+    public function searchByID() {
+        try {
+            $query = "SELECT * FROM articles where id = :id ;";
+
+            $statement = $this->databaseManager->connection->prepare($query);
+            $statement->execute();
+            $rawArticles = $statement->fetchAll();
+
+            foreach ($rawArticles as $rawArticle) {
+                $articles[] = new Article($rawArticle[0]['id'], $rawArticle[0]['title'], $rawArticle[0]['description'], $rawArticle[0]['publish_date']);
+            }
+
+            return $articles;
+
+        } catch (PDOException $e) {
+            echo("Get Article by ID query failed" . $e->getMessage());
+        }
     }
 }

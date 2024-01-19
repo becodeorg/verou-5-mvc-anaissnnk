@@ -48,25 +48,25 @@ class ArticleController
 
     public function show()
     {
-        $articles = $this->getArticles();
+        $article = $this->searchByID($_GET['id']);
         require 'View/articles/show.php';
 
     }
 
-    public function searchByID() {
+    public function searchByID(int $id) {
         try {
             $query = "SELECT * FROM articles where id = :id ;";
 
             $statement = $this->databaseManager->connection->prepare($query);
             $statement->bindParam(":id", $_GET["id"]);
             $statement->execute();
-            $rawArticles = $statement->fetchAll();
+            $rawArticles = $statement->fetch();
 
             foreach ($rawArticles as $rawArticle) {
                 $articles[] = new Article($rawArticle[0]['id'], $rawArticle[0]['title'], $rawArticle[0]['description'], $rawArticle[0]['publish_date']);
             }
 
-            return $articles;
+            return new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
 
         } catch (PDOException $e) {
             echo("Get Article by ID query failed" . $e->getMessage());

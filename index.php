@@ -38,7 +38,7 @@ switch ($page) {
         (new ArticleController())->index();
         break;
     case 'articles-show':
-        (new ArticleController())->show();
+        (new ArticleController($databaseManager))->show();
         break;
     case 'articles-searchByID':
         (new ArticleController())->searchByID();

@@ -38,10 +38,8 @@ switch ($page) {
         (new ArticleController())->index();
         break;
     case 'articles-show':
-        (new ArticleController($databaseManager))->show();
-        break;
-    case 'articles-searchByID':
-        (new ArticleController())->searchByID();
+        // TODO: detail page
+        //(new ArticleController($databaseManager))->show();
         break;
     case 'home':
     default:

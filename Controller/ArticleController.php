@@ -58,6 +58,7 @@ class ArticleController
             $query = "SELECT * FROM articles where id = :id ;";
 
             $statement = $this->databaseManager->connection->prepare($query);
+            $statement->bindParam(":id", $id);
             
             $statement->execute();
             $rawArticles = $statement->fetchAll();

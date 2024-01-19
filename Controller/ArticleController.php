@@ -63,6 +63,8 @@ class ArticleController
             $statement->execute();
             $rawArticles = $statement->fetchAll();
 
+            $articles = [];
+
             foreach ($rawArticles as $rawArticle) {
                 $articles[] = new Article($rawArticle[0]['id'], $rawArticle[0]['title'], $rawArticle[0]['description'], $rawArticle[0]['publish_date']);
             }

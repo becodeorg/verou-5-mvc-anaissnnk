@@ -39,7 +39,7 @@ switch ($page) {
         break;
     case 'articles-show':
         // TODO: detail page
-        //(new ArticleController($databaseManager))->show();
+        (new ArticleController($databaseManager))->searchByID();
         break;
     case 'home':
     default:

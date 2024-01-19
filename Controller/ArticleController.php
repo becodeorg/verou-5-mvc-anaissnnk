@@ -48,56 +48,43 @@ class ArticleController
 
     public function show()
     {
-        // Check if the 'id' parameter is set in the URL
         if (isset($_GET['id'])) {
-            $articleId = (int)$_GET['id']; // Make sure it's an integer to prevent SQL injection
+            $articleId = (int)$_GET['id'];
+            $article = $this->searchByID($articleId);
     
-            // Fetch the specific article by ID
-            $articles = $this->getArticles(); // Assuming getArticles returns an array of Article objects
-    
-            // Find the article with the matching ID
-            $article = null;
-            foreach ($articles as $a) {
-                if ($a->getId() === $articleId) {
-                    $article = $a;
-                    break;
-                }
-            }
-    
-            // Check if the article is found
             if ($article) {
-                // Load the view for displaying the article details
                 require 'View/articles/show.php';
                 return;
             }
         }
-    
-        // Redirect to some error page if the article is not found
+        
         header("Location: index.php?page=error");
         exit();
     }
     
 
-    public function searchByID() {
-        try {
-            $query = "SELECT * FROM articles where id = :id ;";
 
+    public function searchByID($id)
+    {
+        try {
+            $query = "SELECT * FROM articles WHERE id = :id ;";
+    
             $statement = $this->databaseManager->connection->prepare($query);
             $statement->bindParam(":id", $id);
             
             $statement->execute();
-            $rawArticles = $statement->fetchAll();
-
-            $articles = [];
-
-            foreach ($rawArticles as $rawArticle) {
-                $articles[] = new Article($rawArticle[0]['id'], $rawArticle[0]['title'], $rawArticle[0]['description'], $rawArticle[0]['publish_date']);
+            $rawArticle = $statement->fetch();
+    
+            if ($rawArticle) {
+                return new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+            } else {
+                return null;  // Article not found
             }
-
-            return $articles;
-
+    
         } catch (PDOException $e) {
             echo("Get Article by ID query failed" . $e->getMessage());
+            return null;  // Handle the error appropriately
         }
     }
+    
 }

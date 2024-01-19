@@ -13,8 +13,6 @@
             <span>Date published: <?= $article->formatPublishDate(); ?></span>
             <p><a href="index.php?page=articles-show&id=<?= $article->getId(); ?>">Read More</a></p>
 
-
-            
         <?php endforeach; ?>
     </ul>
 </section>

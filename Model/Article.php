@@ -8,8 +8,9 @@ class Article
     public ?string $description;
     public ?string $publishDate;
 
-    public function __construct(string $title, ?string $description, ?string $publishDate)
+    public function __construct(int $id, string $title, ?string $description, ?string $publishDate)
     {
+        $this->id = $id;
         $this->title = $title;
         $this->description = $description;
         $this->publishDate = $publishDate;
@@ -29,7 +30,6 @@ class Article
 
     public function formatPublishDate($format = 'D-M-Y')
     {
-        // TODO: return the date in the required format
         $dateToConvert = $this->publishDate;;
         if ($dateToConvert !== null) {
             $formattedDate = date($format, strtotime($dateToConvert));
